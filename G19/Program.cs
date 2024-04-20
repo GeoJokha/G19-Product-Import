@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.Data.SqlClient;
+using System.Diagnostics;
 
 namespace G19_ProductImport
 {
@@ -7,7 +8,11 @@ namespace G19_ProductImport
         static void Main()
         {
             const string filePath = @"D:\products2.txt";
-            const string connectionString = "Server=.;Database=ProductImport;Integrated Security=True;";
+            const string connectionString = "Server=DESKTOP-ANU2LNI; Database=Products Task; Integrated Security=true; TrustServerCertificate=true";
+            
+            DatabaseImporter importer = new DatabaseImporter(connectionString);
+            importer.ImportData(FileManager.ReadData(filePath));
+            
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             try
@@ -15,10 +20,10 @@ namespace G19_ProductImport
                 var categories = FileManager.ReadData(filePath);
                 foreach (var category in categories)
                 {
-                    Console.WriteLine(category);
+                    //Console.WriteLine(category);
                     foreach(var product in category.Products)
                     {
-                        Console.WriteLine($"\t{product}");
+                        //Console.WriteLine($"\t{product}");
                     }
                 }
 
