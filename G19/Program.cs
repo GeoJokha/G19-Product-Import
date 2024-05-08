@@ -8,11 +8,15 @@ namespace G19_ProductImport
         static void Main()
         {
             const string filePath = @"D:\products2.txt";
-            const string connectionString = "Server=DESKTOP-ANU2LNI; Database=Products Task; Integrated Security=true; TrustServerCertificate=true";
+            const string connectionString = "Server=DESKTOP-L9NGGNR; Database=Products Task; Integrated Security=true; TrustServerCertificate=true";
             
-            DatabaseImporter importer = new DatabaseImporter(connectionString);
-            importer.ImportData(FileManager.ReadData(filePath));
+            Database database = new Database(connectionString);
+            DatabaseImporter importer = new DatabaseImporter();
+
+            importer.ImportData(FileManager.ReadData(filePath));       
             
+            database.OpenConnection();
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             try
@@ -38,7 +42,10 @@ namespace G19_ProductImport
             {
                 Console.WriteLine(ex.Message);
             }
-            
+            finally
+            {
+                database.CloseConnection();
+            }            
         }
     }
 }
